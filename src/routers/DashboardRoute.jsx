@@ -13,6 +13,7 @@ import Register from "../pages/Register";
 import Users from "../pages/Users";
 import Home from "../pages/Home";
 import Restaurants from "../pages/Restaurants";
+import NewRestaurant from "../pages/NewRestaurant";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -62,7 +63,7 @@ function DashboardRoute() {
               icon={<UploadOutlined />}
               onClick={() => handleRedirectPage("/register")}
             >
-              Restaurantes
+              Register
             </Menu.Item>
             <Menu.Item
               key="5"
@@ -88,6 +89,8 @@ function DashboardRoute() {
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/restaurants" element={<Restaurants />} />
+                <Route path="/restaurant/new" element={<NewRestaurant />} />
+
                 <Route path="/register" element={<Register />} />
               </Routes>
             </div>
