@@ -1,7 +1,7 @@
 // import app from "firebase/app";
 import firebaseConfig from "./config";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore/lite";
+import { getFirestore } from "firebase/firestore";
 // modulos firebase
 import "firebase/firestore";
 
@@ -19,3 +19,7 @@ class Firebase {
 
 const firebase = new Firebase();
 export default firebase;
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+
+// export { app, db };

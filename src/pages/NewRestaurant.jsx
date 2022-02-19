@@ -1,18 +1,45 @@
-import React from "react";
-import { Card, Form, Input, Button, Row, Col, Upload, Space } from "antd";
+import React, { useState } from "react";
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  Upload,
+  Space,
+  TimePicker,
+} from "antd";
+import moment from "moment";
 import {
   UploadOutlined,
   PlusOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
 
+import { getFormatTime } from "../utils/times";
+
 const { TextArea } = Input;
 function NewRestaurant() {
+  const [fields, setFields] = useState([
+    {
+      name: ["username"],
+      value: "Ant Design",
+    },
+  ]);
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   const onFinish = (values) => {
-    console.log("Success:", values);
+    // format date
+    const { open, close } = values;
+    const hourOpen = getFormatTime(open._d);
+    const hourClose = getFormatTime(close._d);
+    // remote old date
+    delete values.open;
+    delete values.close;
+    const data = { ...values, hourClose, hourOpen };
+    console.log(data);
   };
 
   const normFile = (e) => {
@@ -67,14 +94,63 @@ function NewRestaurant() {
             name="upload"
             valuePropName="fileList"
             getValueFromEvent={normFile}
-            required
-            // extra="longgggggggggggggggggggggggggggggggggg"
+            rules={[
+              {
+                required: true,
+                message: "La image del restaurante es necesaria",
+              },
+            ]}
           >
-            <Upload name="logo" listType="picture">
+            <Upload name="logo" listType="picture" maxCount={1}>
               <Button icon={<UploadOutlined />}>Click to upload</Button>
             </Upload>
           </Form.Item>
-          <Form.Item label="Descripción:" name="description" required>
+
+          <Form.Item label="Horarios de Atencion" required>
+            <Input.Group compact>
+              <Form.Item
+                name="open"
+                rules={[
+                  {
+                    required: true,
+                    message: "La hora es requerida",
+                  },
+                ]}
+              >
+                <TimePicker
+                  use12Hours
+                  placeholder="Abrimos"
+                  defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
+                />
+              </Form.Item>
+              <Form.Item
+                name="close"
+                rules={[
+                  {
+                    required: true,
+                    message: "La hora es requerida",
+                  },
+                ]}
+              >
+                <TimePicker
+                  use12Hours
+                  placeholder="Cerramos"
+                  defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
+                />
+              </Form.Item>
+            </Input.Group>
+          </Form.Item>
+
+          <Form.Item
+            label="Descripción:"
+            name="description"
+            rules={[
+              {
+                required: true,
+                message: "Describe lo que vende tu restaurante.",
+              },
+            ]}
+          >
             <TextArea rows={4} />
           </Form.Item>
 
@@ -88,11 +164,10 @@ function NewRestaurant() {
                         key={key}
                         style={{ display: "flex", marginBottom: 8 }}
                         align="baseline"
-                        s
                       >
                         <Form.Item
                           {...restField}
-                          name={[name, "first"]}
+                          name={[name, "type"]}
                           rules={[
                             { required: true, message: "Missing first name" },
                           ]}
@@ -102,7 +177,7 @@ function NewRestaurant() {
                         </Form.Item>
                         <Form.Item
                           {...restField}
-                          name={[name, "last"]}
+                          name={[name, "number"]}
                           rules={[
                             { required: true, message: "Missing last name" },
                           ]}
@@ -141,12 +216,11 @@ function NewRestaurant() {
                           display: "flex",
                           marginBottom: 8,
                         }}
-
-                        // align="baseline"
+                        align="baseline"
                       >
                         <Form.Item
                           {...restField}
-                          name={[name, "first"]}
+                          name={[name, "name"]}
                           rules={[
                             { required: true, message: "Missing first name" },
                           ]}
@@ -156,7 +230,7 @@ function NewRestaurant() {
                         </Form.Item>
                         <Form.Item
                           {...restField}
-                          name={[name, "last"]}
+                          name={[name, "url"]}
                           rules={[
                             { required: true, message: "Missing last name" },
                           ]}

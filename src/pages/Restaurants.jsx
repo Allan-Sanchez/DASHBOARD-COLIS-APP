@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Button, Col, Row, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import { collection, getDocs } from "firebase/firestore";
+import { FirebaseContext } from "../firebase";
 const columns = [
   {
     title: "Name (all screens)",
@@ -43,8 +44,17 @@ const data = [
     address: "New York No. 1 Lake Park",
   },
 ];
+
 function Restaurants() {
   const navigate = useNavigate();
+  const { firebase } = useContext(FirebaseContext);
+
+  useEffect(async () => {
+    const querySnapshot = await getDocs(collection(firebase.db, "users"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
+  }, []);
 
   const handleNewRestauran = () => {
     navigate("/restaurant/new");
