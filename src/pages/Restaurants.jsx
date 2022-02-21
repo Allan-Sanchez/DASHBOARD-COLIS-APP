@@ -1,60 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { Button, Col, Row, Table } from "antd";
+import React from "react";
+import { Button, Col, Row } from "antd";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { FirebaseContext } from "../firebase";
-const columns = [
-  {
-    title: "Name (all screens)",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Age (medium screen or bigger)",
-    dataIndex: "age",
-    key: "age",
-    responsive: ["md"],
-  },
-  {
-    title: "Address (large screen or bigger)",
-    dataIndex: "address",
-    key: "address",
-    responsive: ["lg"],
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-];
+import MyTable from "../components/restaurants/MyTable";
+import UseRestaurants from "../hooks/UseRestaurants";
 
 function Restaurants() {
+  // const [data, setData] = useState();
   const navigate = useNavigate();
-  const { firebase } = useContext(FirebaseContext);
+  const { restaurants } = UseRestaurants();
 
-  useEffect(async () => {
-    const querySnapshot = await getDocs(collection(firebase.db, "users"));
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
-  }, []);
+  console.log(restaurants);
 
   const handleNewRestauran = () => {
     navigate("/restaurant/new");
@@ -69,7 +24,7 @@ function Restaurants() {
         </Row>
       </Col>
       <Col span={24}>
-        <Table columns={columns} dataSource={data} />
+        <MyTable data={restaurants} />
       </Col>
     </Row>
   );
