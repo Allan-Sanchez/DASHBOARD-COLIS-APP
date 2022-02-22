@@ -3,6 +3,10 @@ import { Collapse, List, Avatar, Row, Col, Button } from "antd";
 import { useParams } from "react-router-dom";
 import { FirebaseContext } from "../firebase";
 
+// components
+import CreateCategory from "../components/menu/CreateCategory";
+import CreateDish from "../components/menu/CreateDish";
+
 const { Panel } = Collapse;
 
 const datatable = [
@@ -42,18 +46,14 @@ function Menu() {
     <Row>
       <Col span={24} style={{ padding: 10 }}>
         <Row justify="end">
-          <Button onClick={() => handleNewRestauran()} type="primary">
-            Crear Categoria
-          </Button>
+          <CreateCategory />
         </Row>
       </Col>
       <Col span={24}>
         <Collapse defaultActiveKey={["1"]} onChange={callback}>
-          <Panel header="This is panel header 1" key="1">
+          <Panel header="Nombre de la categoria" key="1">
             <Row justify="end">
-              <Button onClick={() => handleNewRestauran()} type="primary">
-                Platillo Nuevo
-              </Button>
+              <CreateDish />
             </Row>
             <List
               itemLayout="horizontal"
@@ -65,18 +65,19 @@ function Menu() {
                     title={<a href="https://ant.design">{item.title}</a>}
                     description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                   />
+                  <Button danger>Danger Default</Button>
                 </List.Item>
               )}
             />
           </Panel>
-          <Panel header="This is panel header 2" key="2">
+          <Panel header="Bebidas Frias" key="2">
             <p>
               familiar layers freedom upon home shop early root merely time
               stronger faster chamber wood hurry dig pet sent basket observe
               repeat image warm pleasant
             </p>
           </Panel>
-          <Panel header="This is panel header 3" key="3">
+          <Panel header="Bebidas Calientes" key="3">
             <p>
               lady laugh why torn seed entire west human forward yes writer
               heart locate judge perfectly age thou national serve wall spite
