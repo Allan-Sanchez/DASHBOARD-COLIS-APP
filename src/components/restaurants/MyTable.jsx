@@ -13,7 +13,7 @@ function MyTable({ data }) {
       <Column
         responsive={["sm"]}
         title="imagen"
-        dataIndex="imgUrl"
+        dataIndex="urlImage"
         render={(info) => {
           return (
             <Space size="middle">
@@ -32,9 +32,14 @@ function MyTable({ data }) {
         title="Acciones"
         render={(info, render) => {
           return (
-            <Button danger onClick={() => handleDelete(render.id)}>
-              Eliminar
-            </Button>
+            <Space>
+              <Button type="primary" onClick={() => handleDelete(render.id)}>
+                ver menu
+              </Button>
+              <Button danger onClick={() => handleDelete(render.id)}>
+                Eliminar
+              </Button>
+            </Space>
           );
         }}
       />

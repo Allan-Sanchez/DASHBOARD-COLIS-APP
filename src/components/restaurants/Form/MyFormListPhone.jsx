@@ -20,6 +20,7 @@ function MyFormListPhone() {
                     name={[name, "type"]}
                     rules={[{ required: true, message: "Missing first name" }]}
                     wrapperCol={{ span: 20 }}
+                    required
                   >
                     <Input placeholder="Tipo de numero" />
                   </Form.Item>

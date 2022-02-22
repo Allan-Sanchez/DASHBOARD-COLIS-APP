@@ -9,8 +9,8 @@ function MyFormImage() {
     if (Array.isArray(e)) {
       return e;
     }
-
-    return e && e.fileList;
+    return e;
+    // return e && e.fileList;
   };
 
   const beforeUpload = ({ file, fileList, event }) => {
@@ -22,7 +22,7 @@ function MyFormImage() {
     <Form.Item
       label="Image:"
       name="upload"
-      valuePropName="fileList"
+      // valuePropName="fileList"
       getValueFromEvent={normFile}
       rules={[
         {

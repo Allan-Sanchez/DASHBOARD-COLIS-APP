@@ -13,7 +13,7 @@ const UseRestaurants = () => {
       handleSnapshot(querySnapshot);
     };
     getRestaurants();
-  }, []);
+  }, [restaurants]);
 
   function handleSnapshot(snapShot) {
     const response = snapShot.docs.map((doc) => {

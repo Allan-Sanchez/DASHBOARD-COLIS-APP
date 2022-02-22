@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Card, Form, Button, Row } from "antd";
+import { Card, Form, Button, Row, Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import { collection, addDoc } from "firebase/firestore";
 import { FirebaseContext } from "../firebase/index";
@@ -15,30 +16,40 @@ import MyFormListPhone from "../components/restaurants/Form/MyFormListPhone";
 import MyFormListSocialMedia from "../components/restaurants/Form/MyFormListSocialMedia";
 
 function NewRestaurant() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { firebase } = useContext(FirebaseContext);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   const onFinish = async (values) => {
+    setLoading(true);
     // format date
     let { open, close, phone, socialMedia } = values;
     if (phone === undefined) delete values.phone;
     if (socialMedia === undefined) delete values.socialMedia;
     const hourOpen = getFormatTime(open._d);
     const hourClose = getFormatTime(close._d);
-    // remote old date
-    delete values.open;
-    delete values.close;
-    // TODO: CREATE FUNCTION TO UPLOAD IMAGE firebase storage
-    delete values.upload;
-    const data = { ...values, hourClose, hourOpen };
 
     try {
-      // console.log(data);
-      const docRef = await addDoc(collection(firebase.db, "restaurants"), data);
-      console.log(docRef);
+      const { upload } = values;
+      const urlImage = await firebase.uploadImageFirebase(
+        `restaurants/${upload.file.uid}`,
+        upload.file
+      );
+
+      // remote old information
+      delete values.open;
+      delete values.close;
+      delete values.upload;
+
+      const data = { ...values, hourClose, hourOpen, urlImage };
+      await addDoc(collection(firebase.db, "restaurants"), data);
+      setLoading(false);
+      navigate("/restaurants");
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -68,9 +79,13 @@ function NewRestaurant() {
           <MyFormListSocialMedia />
 
           <Form.Item wrapperCol={{ offset: 18, span: 6 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
+            {loading ? (
+              <Spin />
+            ) : (
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            )}
           </Form.Item>
         </Form>
       </Card>
