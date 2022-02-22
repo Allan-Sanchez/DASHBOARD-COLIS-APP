@@ -1,7 +1,14 @@
 // import app from "firebase/app";
 import firebaseConfig from "./config";
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -25,7 +32,7 @@ class Firebase {
 
   async getCollections(nameCollection) {
     try {
-      const citiesCol = await collection(this.db, nameCollection);
+      const citiesCol = collection(this.db, nameCollection);
       const citySnapshot = await getDocs(citiesCol);
       const cityList = citySnapshot.docs.map((doc) => {
         return {
@@ -34,6 +41,24 @@ class Firebase {
         };
       });
       return cityList;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getOneCollection(nameCollection, id) {
+    try {
+      const citiesCol = doc(this.db, nameCollection, id);
+      const citySnapshot = await getDoc(citiesCol);
+      // const cityList = citySnapshot.docs.map((doc) => {
+      //   return {
+      //     id: doc.id,
+      //     ...doc.data(),
+      //   };
+      // });
+      if (citySnapshot.exists()) {
+        return citySnapshot.data();
+      }
     } catch (error) {
       console.log(error);
     }

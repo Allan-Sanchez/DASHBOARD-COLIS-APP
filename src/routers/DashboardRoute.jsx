@@ -8,6 +8,7 @@ import Register from "../pages/Register";
 import Users from "../pages/Users";
 import Home from "../pages/Home";
 import Restaurants from "../pages/Restaurants";
+import Menu from "../pages/Menu";
 import NewRestaurant from "../pages/NewRestaurant";
 
 // components
@@ -37,6 +38,7 @@ function DashboardRoute() {
                 <Route path="/users" element={<Users />} />
                 <Route path="/restaurants" element={<Restaurants />} />
                 <Route path="/restaurant/new" element={<NewRestaurant />} />
+                <Route path="/restaurant/:id/menu" element={<Menu />} />
 
                 <Route path="/register" element={<Register />} />
               </Routes>

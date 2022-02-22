@@ -1,11 +1,16 @@
 import React from "react";
 import { Table, Space, Avatar, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Column } = Table;
 
 function MyTable({ data }) {
+  const navigate = useNavigate();
   const handleDelete = (id) => {
     console.log(id);
+  };
+  const handleRestaurantMenu = (id) => {
+    navigate(`/restaurant/${id}/menu`);
   };
   return (
     <Table dataSource={data} rowKey={(item) => item.id}>
@@ -33,7 +38,10 @@ function MyTable({ data }) {
         render={(info, render) => {
           return (
             <Space>
-              <Button type="primary" onClick={() => handleDelete(render.id)}>
+              <Button
+                type="primary"
+                onClick={() => handleRestaurantMenu(render.id)}
+              >
                 ver menu
               </Button>
               <Button danger onClick={() => handleDelete(render.id)}>
