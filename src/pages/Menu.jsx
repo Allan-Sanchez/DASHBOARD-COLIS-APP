@@ -1,73 +1,42 @@
-import React, { useContext } from "react";
-import { Collapse, List, Avatar, Row, Col, Button, Empty } from "antd";
+import React, { useContext, useEffect } from "react";
+import { Row, Col, Empty } from "antd";
 import InfoContext from "../context/InfoContext";
 import { useParams } from "react-router-dom";
+import { FirebaseContext } from "../firebase";
 
 // components
 import CreateCategory from "../components/menu/CreateCategory";
-import CreateDish from "../components/menu/CreateDish";
-
-const { Panel } = Collapse;
-
-const datatable = [
-  {
-    title: "Ant Design Title 1",
-  },
-  {
-    title: "Ant Design Title 2",
-  },
-  {
-    title: "Ant Design Title 3",
-  },
-  {
-    title: "Ant Design Title 4",
-  },
-];
+import MyCollapse from "../components/menu/MyCollapse";
 
 function Menu() {
-  const { restaurant } = useContext(InfoContext);
+  const { restaurant, setRestaurant } = useContext(InfoContext);
+  const { firebase } = useContext(FirebaseContext);
   const params = useParams();
 
-  console.log(restaurant);
-
-  function callback(key) {
-    console.log(key);
-  }
+  useEffect(async () => {
+    if (restaurant.length === 0) {
+      const response = await firebase.getOneCollection(
+        "restaurants",
+        params.id
+      );
+      await setRestaurant(response);
+    }
+  }, [restaurant]);
 
   return (
     <>
       <Row justify="center">
         <Col span={24} style={{ padding: 10 }}>
           <Row justify="end">
-            <CreateCategory paramsId={params.id} />
+            <CreateCategory
+              restaurant={restaurant}
+              paramsId={params.id}
+              setRestaurant={setRestaurant}
+            />
           </Row>
         </Col>
         {restaurant.category ? (
-          <Col span={24}>
-            <Collapse defaultActiveKey={["1"]} onChange={callback}>
-              <Panel header="Bebidas" key="1">
-                <Row justify="end">
-                  <CreateDish />
-                </Row>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={datatable}
-                  renderItem={(item) => (
-                    <List.Item actions={[<Button danger>Eliminar</Button>]}>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title={<a href="https://ant.design">{item.title}</a>}
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      />
-                      <div>100.00</div>
-                    </List.Item>
-                  )}
-                />
-              </Panel>
-            </Collapse>
-          </Col>
+          <MyCollapse category={restaurant.category} />
         ) : (
           <Empty
             description={<span>El restaurant no tiene menu todavia</span>}

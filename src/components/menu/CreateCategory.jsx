@@ -3,7 +3,7 @@ import { Modal, Button, Form, Input } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { FirebaseContext } from "../../firebase";
 
-function CreateCategory({ paramsId }) {
+function CreateCategory({ restaurant, paramsId, setRestaurant }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
 
@@ -23,13 +23,24 @@ function CreateCategory({ paramsId }) {
     const categoryId = uuidv4();
 
     try {
-      
-      const data = {
-        category: [{ ...values, categoryId }],
-      };
+      let data = {};
+      if (!restaurant.category) {
+        data = {
+          category: [{ ...values, categoryId }],
+        };
+      } else {
+        let { category } = restaurant;
+        if (Array.isArray(category)) {
+          const newCategory = { ...values, categoryId };
+          category.push(newCategory);
+        }
+        data = {
+          category,
+        };
+      }
 
-      console.log(data);
       await firebase.updateOneDocument("restaurants", paramsId, data);
+      setRestaurant(restaurant);
       console.log("todo ok");
     } catch (error) {
       console.log(error);
