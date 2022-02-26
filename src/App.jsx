@@ -3,6 +3,7 @@ import AppRouter from "./routers/AppRouter";
 import { AuthContext } from "./auth/AuthContext";
 import { authReducer } from "./auth/authReducer";
 import firebase, { FirebaseContext } from "./firebase";
+import InfoState from "./context/InfoState";
 
 const init = () => {
   return JSON.parse(localStorage.getItem("user")) || { logged: false };
@@ -18,7 +19,9 @@ function App() {
   return (
     <FirebaseContext.Provider value={{ firebase }}>
       <AuthContext.Provider value={{ user, dispatch }}>
-        <AppRouter />
+        <InfoState>
+          <AppRouter />
+        </InfoState>
       </AuthContext.Provider>
     </FirebaseContext.Provider>
   );

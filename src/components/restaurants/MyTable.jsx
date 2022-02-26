@@ -10,7 +10,7 @@ function MyTable({ data }) {
     console.log(id);
   };
   const handleRestaurantMenu = (id) => {
-    navigate(`/restaurant/${id}/menu`);
+    navigate(`/restaurant/${id}`);
   };
   return (
     <Table dataSource={data} rowKey={(item) => item.id}>
@@ -42,7 +42,7 @@ function MyTable({ data }) {
                 type="primary"
                 onClick={() => handleRestaurantMenu(render.id)}
               >
-                ver menu
+                ver
               </Button>
               <Button danger onClick={() => handleDelete(render.id)}>
                 Eliminar

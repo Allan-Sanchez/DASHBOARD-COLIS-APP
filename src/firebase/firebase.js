@@ -8,6 +8,7 @@ import {
   addDoc,
   getDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -20,11 +21,9 @@ import "firebase/firestore";
 
 class Firebase {
   constructor() {
-    // app.initializeApp(firebaseConfig);
     // if (!app.apps.length) {
     //   app.initializeApp(firebaseConfig);
     // }
-    // this.db = app.firestore();
     this.app = initializeApp(firebaseConfig);
     this.db = getFirestore(this.app);
     this.storage = getStorage();
@@ -50,12 +49,7 @@ class Firebase {
     try {
       const citiesCol = doc(this.db, nameCollection, id);
       const citySnapshot = await getDoc(citiesCol);
-      // const cityList = citySnapshot.docs.map((doc) => {
-      //   return {
-      //     id: doc.id,
-      //     ...doc.data(),
-      //   };
-      // });
+
       if (citySnapshot.exists()) {
         return citySnapshot.data();
       }
@@ -67,6 +61,15 @@ class Firebase {
   async setDocument(documentName, data) {
     try {
       await addDoc(collection(this.db, documentName), data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateOneDocument(nameCollection, id, data) {
+    const docRef = doc(this.db, nameCollection, id);
+    await updateDoc(docRef, data);
+    try {
     } catch (error) {
       console.log(error);
     }

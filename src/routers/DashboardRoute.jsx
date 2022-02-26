@@ -10,6 +10,7 @@ import Home from "../pages/Home";
 import Restaurants from "../pages/Restaurants";
 import Menu from "../pages/Menu";
 import NewRestaurant from "../pages/NewRestaurant";
+import Restaurant from "../pages/Restaurant";
 
 // components
 import NavBar from "../components/NavBar";
@@ -37,6 +38,7 @@ function DashboardRoute() {
                 <Route path="/" element={<Home />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/restaurants" element={<Restaurants />} />
+                <Route path="/restaurant/:id" element={<Restaurant />} />
                 <Route path="/restaurant/new" element={<NewRestaurant />} />
                 <Route path="/restaurant/:id/menu" element={<Menu />} />
 

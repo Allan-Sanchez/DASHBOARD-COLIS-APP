@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Modal, Button, Form, Input } from "antd";
+import { v4 as uuidv4 } from "uuid";
+import { FirebaseContext } from "../../firebase";
 
-function CreateCategory() {
+function CreateCategory({ paramsId }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { firebase } = useContext(FirebaseContext);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -16,8 +19,21 @@ function CreateCategory() {
     setIsModalVisible(false);
   };
   // form
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    const categoryId = uuidv4();
+
+    try {
+      
+      const data = {
+        category: [{ ...values, categoryId }],
+      };
+
+      console.log(data);
+      await firebase.updateOneDocument("restaurants", paramsId, data);
+      console.log("todo ok");
+    } catch (error) {
+      console.log(error);
+    }
     handleOk();
   };
 
@@ -37,7 +53,6 @@ function CreateCategory() {
       >
         <Form
           name="basic"
-          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"

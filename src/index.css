@@ -12,3 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.button-edit {
+  background-color: #ffd666;
+  border-color: #874d00;
+}
+
+.button-edit:hover {
+  background-color: #fffbe6;
+  color: #000;
+  border-color: #874d00;
+}

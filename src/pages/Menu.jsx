@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Collapse, List, Avatar, Row, Col, Button } from "antd";
+import React, { useContext } from "react";
+import { Collapse, List, Avatar, Row, Col, Button, Empty } from "antd";
+import InfoContext from "../context/InfoContext";
 import { useParams } from "react-router-dom";
-import { FirebaseContext } from "../firebase";
 
 // components
 import CreateCategory from "../components/menu/CreateCategory";
@@ -25,68 +25,56 @@ const datatable = [
 ];
 
 function Menu() {
-  const [data, setData] = useState({});
+  const { restaurant } = useContext(InfoContext);
   const params = useParams();
-  const { firebase } = useContext(FirebaseContext);
 
-  useEffect(async () => {
-    const response = await firebase.getOneCollection("restaurants", params.id);
-    setData(response);
-  }, []);
+  console.log(restaurant);
 
   function callback(key) {
     console.log(key);
   }
 
-  const handleNewRestauran = () => {
-    console.log(test);
-  };
-
   return (
-    <Row>
-      <Col span={24} style={{ padding: 10 }}>
-        <Row justify="end">
-          <CreateCategory />
-        </Row>
-      </Col>
-      <Col span={24}>
-        <Collapse defaultActiveKey={["1"]} onChange={callback}>
-          <Panel header="Nombre de la categoria" key="1">
-            <Row justify="end">
-              <CreateDish />
-            </Row>
-            <List
-              itemLayout="horizontal"
-              dataSource={datatable}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title={<a href="https://ant.design">{item.title}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                  />
-                  <Button danger>Danger Default</Button>
-                </List.Item>
-              )}
-            />
-          </Panel>
-          <Panel header="Bebidas Frias" key="2">
-            <p>
-              familiar layers freedom upon home shop early root merely time
-              stronger faster chamber wood hurry dig pet sent basket observe
-              repeat image warm pleasant
-            </p>
-          </Panel>
-          <Panel header="Bebidas Calientes" key="3">
-            <p>
-              lady laugh why torn seed entire west human forward yes writer
-              heart locate judge perfectly age thou national serve wall spite
-              chamber specific something
-            </p>
-          </Panel>
-        </Collapse>
-      </Col>
-    </Row>
+    <>
+      <Row justify="center">
+        <Col span={24} style={{ padding: 10 }}>
+          <Row justify="end">
+            <CreateCategory paramsId={params.id} />
+          </Row>
+        </Col>
+        {restaurant.category ? (
+          <Col span={24}>
+            <Collapse defaultActiveKey={["1"]} onChange={callback}>
+              <Panel header="Bebidas" key="1">
+                <Row justify="end">
+                  <CreateDish />
+                </Row>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={datatable}
+                  renderItem={(item) => (
+                    <List.Item actions={[<Button danger>Eliminar</Button>]}>
+                      <List.Item.Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title={<a href="https://ant.design">{item.title}</a>}
+                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      />
+                      <div>100.00</div>
+                    </List.Item>
+                  )}
+                />
+              </Panel>
+            </Collapse>
+          </Col>
+        ) : (
+          <Empty
+            description={<span>El restaurant no tiene menu todavia</span>}
+          />
+        )}
+      </Row>
+    </>
   );
 }
 
