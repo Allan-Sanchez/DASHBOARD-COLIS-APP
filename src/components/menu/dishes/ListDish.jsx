@@ -16,6 +16,7 @@ const datatable = [
   },
 ];
 function ListDish() {
+  console.log("list dish");
   return (
     <List
       itemLayout="horizontal"
@@ -23,7 +24,14 @@ function ListDish() {
       renderItem={(item) => (
         <List.Item actions={[<Button danger>Eliminar</Button>]}>
           <List.Item.Meta
-            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+            avatar={
+              <a href="" target={"_blank"}>
+                <Avatar
+                  src="https://joeschmoe.io/api/v1/random"
+                  size={"large"}
+                />
+              </a>
+            }
             title={<a href="https://ant.design">{item.title}</a>}
             description="Ant Design, a design language for background applications, is refined by Ant UED Team"
           />

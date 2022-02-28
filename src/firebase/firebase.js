@@ -1,6 +1,8 @@
 // import app from "firebase/app";
+import { v4 as uuidv4 } from "uuid";
 import firebaseConfig from "./config";
 import { initializeApp } from "firebase/app";
+
 import {
   getFirestore,
   getDocs,
@@ -9,6 +11,7 @@ import {
   getDoc,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -51,7 +54,10 @@ class Firebase {
       const citySnapshot = await getDoc(citiesCol);
 
       if (citySnapshot.exists()) {
-        return citySnapshot.data();
+        return {
+          id: id,
+          ...citySnapshot.data(),
+        };
       }
     } catch (error) {
       console.log(error);
@@ -61,6 +67,29 @@ class Firebase {
   async setDocument(documentName, data) {
     try {
       await addDoc(collection(this.db, documentName), data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addOneDocument(
+    collectionName,
+    collectionId,
+    documentID,
+    documentUuid,
+    data
+  ) {
+    // const documentUuid = uuidv4();
+    try {
+      // await setDoc(doc(this.db, collectionName, documentID), {});
+      await setDoc(
+        doc(
+          this.db,
+          `${collectionName}/${collectionId}/${documentID}/${documentUuid}`
+          // `${collectionName}/${collectionId}`
+        ),
+        data
+      );
     } catch (error) {
       console.log(error);
     }

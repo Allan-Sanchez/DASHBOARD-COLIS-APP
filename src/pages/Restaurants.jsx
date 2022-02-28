@@ -9,7 +9,6 @@ function Restaurants() {
   const navigate = useNavigate();
   const { restaurants } = UseRestaurants();
 
-
   const handleNewRestauran = () => {
     navigate("/restaurant/new");
   };

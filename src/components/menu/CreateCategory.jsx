@@ -6,6 +6,7 @@ import { FirebaseContext } from "../../firebase";
 function CreateCategory({ restaurant, paramsId, setRestaurant }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
+  const [form] = Form.useForm();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -28,6 +29,9 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
         data = {
           category: [{ ...values, categoryId }],
         };
+        // add category into restaurant data
+        let category = data.category;
+        restaurant = { ...restaurant, category };
       } else {
         let { category } = restaurant;
         if (Array.isArray(category)) {
@@ -41,6 +45,7 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
 
       await firebase.updateOneDocument("restaurants", paramsId, data);
       setRestaurant(restaurant);
+      form.resetFields();
       console.log("todo ok");
     } catch (error) {
       console.log(error);
@@ -63,6 +68,7 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
         footer={[]}
       >
         <Form
+          form={form}
           name="basic"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}

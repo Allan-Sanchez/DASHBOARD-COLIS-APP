@@ -9,7 +9,7 @@ import CreateCategory from "../components/menu/CreateCategory";
 import MyCollapse from "../components/menu/MyCollapse";
 
 function Menu() {
-  const { restaurant, setRestaurant } = useContext(InfoContext);
+  const { restaurant, setRestaurant, categories } = useContext(InfoContext);
   const { firebase } = useContext(FirebaseContext);
   const params = useParams();
 
@@ -19,6 +19,11 @@ function Menu() {
         "restaurants",
         params.id
       );
+      // const responseCategory = await firebase.getCollections(
+      //   `dishes/${response.id}`
+      // );
+      // console.log(` data: ${responseCategory}`);
+      console.log("temp");
       await setRestaurant(response);
     }
   }, [restaurant]);

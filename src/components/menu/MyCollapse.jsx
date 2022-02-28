@@ -1,11 +1,9 @@
 import React from "react";
-import { Collapse, Row, Col } from "antd";
-
-import CreateDish from "./CreateDish";
-import ListDish from "./dishes/ListDish";
+import { Collapse, Col, Row } from "antd";
 
 const { Panel } = Collapse;
-
+import CreateDish from "../menu/CreateDish";
+import ListDish from "../menu/dishes/ListDish";
 function MyCollapse({ category }) {
   function callback(key) {
     console.log(key);
@@ -19,8 +17,9 @@ function MyCollapse({ category }) {
             return (
               <Panel header={item.name} key={index}>
                 <Row justify="end">
-                  <CreateDish />
+                  <CreateDish categoryData={item} />
                 </Row>
+
                 <ListDish />
               </Panel>
             );

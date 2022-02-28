@@ -5,7 +5,6 @@ function SocialMedia({ data }) {
   return (
     <>
       {data?.map((item) => {
-        console.log(item.url);
         return (
           <div key={item.url}>
             <Row justify="center">
