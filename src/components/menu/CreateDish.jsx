@@ -7,14 +7,12 @@ import InfoContext from "../../context/InfoContext";
 
 // componenst
 
-function CreateDish({ categoryData }) {
+function CreateDish({ categoryData, index }) {
+  console.log(index);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
-  const { restaurant } = useContext(InfoContext);
+  const { restaurant, setCategory } = useContext(InfoContext);
   const [form] = Form.useForm();
-
-  console.log(restaurant);
-  console.log(categoryData.categoryId);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -29,7 +27,6 @@ function CreateDish({ categoryData }) {
   };
   // form
   const onFinish = async (values) => {
-    // console.log("Success:", values);
     const categoryUuid = uuidv4();
     try {
       const { upload } = values;
@@ -48,6 +45,8 @@ function CreateDish({ categoryData }) {
         data
       );
       form.resetFields();
+      // TODO: Colocar la data en el respectivo arrray del state global
+      setCategory(index,data);
     } catch (error) {
       console.log(error);
     }

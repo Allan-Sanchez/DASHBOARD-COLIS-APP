@@ -14,7 +14,7 @@ const InfoReducer = (state, action) => {
     case SET_CATEGORY:
       return {
         ...state,
-        categories: action.payload,
+        categories: [...state.categories, action.payload.category],
       };
 
     default:

@@ -1,44 +1,51 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { List, Avatar, Button } from "antd";
+import { FirebaseContext } from "../../../firebase";
+import InfoContext from "../../../context/InfoContext";
 
-const datatable = [
-  {
-    title: "Ant Design Title 1",
-  },
-  {
-    title: "Ant Design Title 2",
-  },
-  {
-    title: "Ant Design Title 3",
-  },
-  {
-    title: "Ant Design Title 4",
-  },
-];
-function ListDish() {
-  console.log("list dish");
+function ListDish({ categoryData }) {
+  const [data, setData] = useState();
+  const { firebase } = useContext(FirebaseContext);
+  const { restaurant, setCategory } = useContext(InfoContext);
+  console.log(categoryData);
+  useEffect(async () => {
+    try {
+      // const test = "test".toUpperCase();
+      const response = await firebase.getCollections(
+        `menu/${restaurant.id}/${categoryData.categoryId}`
+      );
+      setData(response);
+      setCategory(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
-    <List
-      itemLayout="horizontal"
-      dataSource={datatable}
-      renderItem={(item) => (
-        <List.Item actions={[<Button danger>Eliminar</Button>]}>
-          <List.Item.Meta
-            avatar={
-              <a href="" target={"_blank"}>
-                <Avatar
-                  src="https://joeschmoe.io/api/v1/random"
-                  size={"large"}
-                />
-              </a>
-            }
-            title={<a href="https://ant.design">{item.title}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          />
-          <div>100.00</div>
-        </List.Item>
+    <>
+      {data ? (
+        <List
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item) => (
+            <List.Item actions={[<Button danger>Eliminar</Button>]}>
+              <List.Item.Meta
+                avatar={
+                  <a href={item.urlImage} target={"_blank"}>
+                    <Avatar src={item.urlImage} size={"large"} />
+                  </a>
+                }
+                title={<a href="https://ant.design">{item.name}</a>}
+                description={item.description}
+              />
+              <div>Q. {item.price}</div>
+            </List.Item>
+          )}
+        />
+      ) : (
+        <h2>Cargando....</h2>
       )}
-    />
+    </>
   );
 }
 

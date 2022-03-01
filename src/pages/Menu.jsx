@@ -23,7 +23,6 @@ function Menu() {
       //   `dishes/${response.id}`
       // );
       // console.log(` data: ${responseCategory}`);
-      console.log("temp");
       await setRestaurant(response);
     }
   }, [restaurant]);

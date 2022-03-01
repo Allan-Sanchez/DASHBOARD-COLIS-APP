@@ -16,10 +16,10 @@ const InfoState = ({ children }) => {
       payload: restaurant,
     });
   };
-  const setCategory = (category) => {
+  const setCategory = (index, category) => {
     dispath({
       type: SET_CATEGORY,
-      payload: category,
+      payload: { index, category },
     });
   };
   return (

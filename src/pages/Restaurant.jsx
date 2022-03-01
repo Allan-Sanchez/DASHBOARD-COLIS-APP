@@ -8,7 +8,7 @@ import InfoContext from "../context/InfoContext";
 import CardInforRestaurant from "../components/restaurant/CardInforRestaurant";
 
 function Restaurant() {
-  const params = useParams();
+const params = useParams();
   const navigate = useNavigate();
 
   const { firebase } = useContext(FirebaseContext);

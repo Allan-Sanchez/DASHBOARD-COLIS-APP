@@ -6,7 +6,7 @@ import CreateDish from "../menu/CreateDish";
 import ListDish from "../menu/dishes/ListDish";
 function MyCollapse({ category }) {
   function callback(key) {
-    console.log(key);
+    // console.log(key);
   }
 
   return (
@@ -17,10 +17,10 @@ function MyCollapse({ category }) {
             return (
               <Panel header={item.name} key={index}>
                 <Row justify="end">
-                  <CreateDish categoryData={item} />
+                  <CreateDish categoryData={item} index={index} />
                 </Row>
 
-                <ListDish />
+                <ListDish categoryData={item} />
               </Panel>
             );
           })}
