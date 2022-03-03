@@ -1,4 +1,11 @@
-import { GET_RESTAURANTS, SET_CATEGORY, SET_RESTAURANTS } from "../types/types";
+import {
+  GET_RESTAURANTS,
+  ADD_CATEGORY,
+  SET_CATEGORY,
+  SET_RESTAURANTS,
+  GET_ONE_CATEGORY,
+  CLEAN_CATEGORIES,
+} from "../types/types";
 const InfoReducer = (state, action) => {
   switch (action.type) {
     case GET_RESTAURANTS:
@@ -14,7 +21,30 @@ const InfoReducer = (state, action) => {
     case SET_CATEGORY:
       return {
         ...state,
-        categories: [...state.categories, action.payload.category],
+        categories: [...state.categories, action.payload],
+      };
+    case GET_ONE_CATEGORY:
+      return {
+        ...state,
+        category: state.categories.filter((item) => item.id === action.payload),
+      };
+    case ADD_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.map((category) => {
+          if (category.id === action.payload.id) {
+            return (category.categories = [
+              ...category.categories,
+              action.payload.data,
+            ]);
+          }
+          return category;
+        }),
+      };
+    case CLEAN_CATEGORIES:
+      return {
+        ...state,
+        categories: [],
       };
 
     default:

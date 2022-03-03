@@ -8,7 +8,6 @@ import InfoContext from "../../context/InfoContext";
 // componenst
 
 function CreateDish({ categoryData, index }) {
-  console.log(index);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
   const { restaurant, setCategory } = useContext(InfoContext);

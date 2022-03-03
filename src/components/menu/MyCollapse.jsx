@@ -4,10 +4,13 @@ import { Collapse, Col, Row } from "antd";
 const { Panel } = Collapse;
 import CreateDish from "../menu/CreateDish";
 import ListDish from "../menu/dishes/ListDish";
+
 function MyCollapse({ category }) {
   function callback(key) {
-    // console.log(key);
+    console.log(key);
   }
+  // TODO: crear de nuevo el store verificar si aqui nos funciona la peticion
+  // validar que pedimos los datos solo una vez
 
   return (
     <>
