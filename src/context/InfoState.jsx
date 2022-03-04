@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import {
   ADD_CATEGORY,
   CLEAN_CATEGORIES,
+  CLEAN_CATEGORy,
   GET_ONE_CATEGORY,
   SET_CATEGORY,
   SET_RESTAURANTS,
@@ -47,6 +48,11 @@ const InfoState = ({ children }) => {
       type: CLEAN_CATEGORIES,
     });
   };
+  const cleanCategory = () => {
+    dispath({
+      type: CLEAN_CATEGORy,
+    });
+  };
   return (
     <InfoContext.Provider
       value={{
@@ -57,6 +63,7 @@ const InfoState = ({ children }) => {
         setCategory,
         addCategory,
         getOneCategory,
+        cleanCategory,
       }}
     >
       {children}

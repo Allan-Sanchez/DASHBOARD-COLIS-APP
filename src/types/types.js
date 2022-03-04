@@ -8,3 +8,4 @@ export const SET_CATEGORY = "SET_CATEGORY";
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const GET_ONE_CATEGORY = "GET_ONE_CATEGORY";
 export const CLEAN_CATEGORIES = "CLEAN_CATEGORIES";
+export const CLEAN_CATEGORy = "CLEAN_CATEGORy";

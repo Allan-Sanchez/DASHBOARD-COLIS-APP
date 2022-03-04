@@ -5,6 +5,7 @@ import {
   SET_RESTAURANTS,
   GET_ONE_CATEGORY,
   CLEAN_CATEGORIES,
+  CLEAN_CATEGORy,
 } from "../types/types";
 const InfoReducer = (state, action) => {
   switch (action.type) {
@@ -45,6 +46,11 @@ const InfoReducer = (state, action) => {
       return {
         ...state,
         categories: [],
+      };
+      case CLEAN_CATEGORy:
+      return {
+        ...state,
+        category: [],
       };
 
     default:

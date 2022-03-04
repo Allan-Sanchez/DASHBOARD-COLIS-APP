@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Empty, Tag } from "antd";
 
 import InfoContext from "../context/InfoContext";
@@ -12,8 +12,15 @@ import useDishes from "../hooks/useDishes";
 import CardDish from "../components/menu/dishes/CardDish";
 
 function Menu() {
-  const { restaurant, setRestaurant, setCategory, categories } =
-    useContext(InfoContext);
+  const {
+    restaurant,
+    categories,
+    category,
+    setRestaurant,
+    setCategory,
+    getOneCategory,
+    cleanCategory,
+  } = useContext(InfoContext);
   const { firebase } = useContext(FirebaseContext);
   const params = useParams();
 
@@ -28,6 +35,7 @@ function Menu() {
       await setRestaurant(response);
     }
     getCategoryFirebase();
+    console.log("test");
   }, [restaurant]);
 
   // console.log("aqui tengo que save category array");
@@ -49,7 +57,6 @@ function Menu() {
             categories: response,
           };
           setCategory(data);
-          // setData(categories.categories);
         } catch (error) {
           console.log(error);
         }
@@ -57,8 +64,16 @@ function Menu() {
     }
   };
 
-  const handleFilterByCategory = (id) => {
+  const handleFilterByCategory = async (id) => {
+    await getOneCategory(id);
     console.log(id);
+    // let test = await category;
+    // console.log(test);
+  };
+
+  const handleAllCategory = () => {
+    cleanCategory();
+    console.log("limpiar la category");
   };
   // TODO:: create un custom hook con esta info
   // agregar la funcionalidad de los tag de la cagegory
@@ -77,7 +92,7 @@ function Menu() {
         </Col>
 
         <Col span={24} style={{ marginBottom: "1rem" }}>
-          <Tag>Todo el Menu</Tag>
+          <Tag onClick={() => handleAllCategory()}>Todo el Menu</Tag>
           {categories?.map((category) => {
             return (
               <Tag
@@ -92,13 +107,40 @@ function Menu() {
         </Col>
         <Col span={24}>
           <Row style={{ marginTop: "1rem" }} gutter={[16, 16]}>
-            {categories?.map((category) => {
+            {category.length === 0 ? (
+              <>
+                {categories?.map((category) => {
+                  return (
+                    // <Col>
+                    <CardDish
+                      key={category.id}
+                      categories={category.categories}
+                    />
+                    // </Col>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {category?.map((category) => {
+                  return (
+                    // <Col>
+                    <CardDish
+                      key={category.id}
+                      categories={category.categories}
+                    />
+                    // </Col>
+                  );
+                })}
+              </>
+            )}
+            {/* {categories?.map((category) => {
               return (
                 // <Col>
                 <CardDish key={category.id} categories={category.categories} />
                 // </Col>
               );
-            })}
+            })} */}
           </Row>
         </Col>
         {/* {restaurant.category ? (
