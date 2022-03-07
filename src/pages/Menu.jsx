@@ -109,7 +109,7 @@ function Menu() {
           })}
         </Col>
         <Col span={24}>
-          <Row style={{ marginTop: "1rem" }} gutter={[16, 16]}>
+          <Row justify="center" style={{ marginTop: "1rem" }} gutter={[16, 16]}>
             {category.length === 0 ? (
               <>
                 {categories?.map((category) => {

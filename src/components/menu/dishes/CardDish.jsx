@@ -12,15 +12,23 @@ function CardDish({ categories }) {
     <>
       {categories.map((category) => {
         return (
-          <Col key={category.id} span={6}>
+          <Col key={category.id} sm={12} lg={6}>
             <Card
               style={{ width: 200 }}
               cover={
-                <img
-                  alt="example"
-                  src={category.urlImage}
-                  style={{ height: 100, objectFit: "contain" }}
-                />
+                <>
+                  <a
+                    href={category.urlImage}
+                    target="_blank"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <img
+                      alt="example"
+                      src={category.urlImage}
+                      style={{ height: 100, objectFit: "contain" }}
+                    />
+                  </a>
+                </>
               }
               actions={[<Button danger>Elimar</Button>]}
             >
