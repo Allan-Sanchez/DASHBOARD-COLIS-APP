@@ -19,6 +19,7 @@ const InfoState = ({ children }) => {
   const [state, dispath] = useReducer(InfoReducer, initialState);
 
   const setRestaurant = (restaurant) => {
+    // console.log("si recargo ", refill);
     cleanCategories();
     dispath({
       type: SET_RESTAURANTS,
@@ -32,6 +33,9 @@ const InfoState = ({ children }) => {
     });
   };
   const addCategory = (id, data) => {
+    // cleanCategory();
+    // console.log(id);
+    // console.log(data);
     dispath({
       type: ADD_CATEGORY,
       payload: { id, data },

@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Modal, Button, Form, Input, Upload, InputNumber } from "antd";
+import { Modal, Button, Form, Input, Upload, InputNumber, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { FirebaseContext } from "../../firebase";
 import InfoContext from "../../context/InfoContext";
 
 // componenst
 
-function CreateDish({ categoryData, index }) {
+function CreateDish() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
-  const { restaurant, setCategory } = useContext(InfoContext);
+  const { restaurant, categories, addCategory } = useContext(InfoContext);
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -28,7 +28,7 @@ function CreateDish({ categoryData, index }) {
   const onFinish = async (values) => {
     const categoryUuid = uuidv4();
     try {
-      const { upload } = values;
+      const { upload, categoryId } = values;
       const urlImage = await firebase.uploadImageFirebase(
         `dishes/${upload.file.uid}`,
         upload.file
@@ -39,13 +39,16 @@ function CreateDish({ categoryData, index }) {
       await firebase.addOneDocument(
         "menu",
         restaurant.id,
-        categoryData.categoryId,
+        categoryId,
         categoryUuid,
         data
       );
+      // console.log(data);
       form.resetFields();
       // TODO: Colocar la data en el respectivo arrray del state global
-      setCategory(index,data);
+      // setCategory(index, data);
+      const addCategoryUUid = { ...data, id: categoryUuid };
+      addCategory(categoryId, addCategoryUUid);
     } catch (error) {
       console.log(error);
     }
@@ -71,11 +74,11 @@ function CreateDish({ categoryData, index }) {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button className="button-success" onClick={showModal}>
         Nuevo Platillo
       </Button>
       <Modal
-        title={`Nuevo platillo en la Categoria ${categoryData.name}`}
+        title={`Nuevo platillo`}
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={[]}
@@ -89,6 +92,18 @@ function CreateDish({ categoryData, index }) {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <Form.Item label="categoria" name="categoryId">
+            <Select placeholder="Selecciona la Categoria">
+              {categories.map((category) => {
+                return (
+                  <Select.Option key={category.id} value={category.id}>
+                    {category.name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+
           <Form.Item
             label="Image:"
             name="upload"

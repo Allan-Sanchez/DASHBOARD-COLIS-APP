@@ -23,3 +23,15 @@ code {
   color: #000;
   border-color: #874d00;
 }
+.button-success {
+  margin-left: 1rem;
+  background-color: #95de64;
+  border-color: #73d13d;
+  color: white;
+}
+
+.button-success:hover {
+  background-color: #b7eb8f;
+  color: white;
+  border-color: #73d13d;
+}

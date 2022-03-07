@@ -2,10 +2,12 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form, Input } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { FirebaseContext } from "../../firebase";
+import InfoContext from "../../context/InfoContext";
 
 function CreateCategory({ restaurant, paramsId, setRestaurant }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { firebase } = useContext(FirebaseContext);
+  const { setCategory } = useContext(InfoContext);
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -44,7 +46,8 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
       }
 
       await firebase.updateOneDocument("restaurants", paramsId, data);
-      setRestaurant(restaurant);
+      // setRestaurant(restaurant, true);
+      setCategory({ ...values, id: categoryId, categories: [] });
       form.resetFields();
       console.log("todo ok");
     } catch (error) {

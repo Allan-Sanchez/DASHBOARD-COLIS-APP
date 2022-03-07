@@ -10,6 +10,7 @@ import CreateCategory from "../components/menu/CreateCategory";
 import MyCollapse from "../components/menu/MyCollapse";
 import useDishes from "../hooks/useDishes";
 import CardDish from "../components/menu/dishes/CardDish";
+import CreateDish from "../components/menu/CreateDish";
 
 function Menu() {
   const {
@@ -35,7 +36,6 @@ function Menu() {
       await setRestaurant(response);
     }
     getCategoryFirebase();
-    console.log("test");
   }, [restaurant]);
 
   // console.log("aqui tengo que save category array");
@@ -87,13 +87,16 @@ function Menu() {
               restaurant={restaurant}
               paramsId={params.id}
               setRestaurant={setRestaurant}
+              setCategory={setCategory}
             />
+            {categories.length > 0 ? <CreateDish /> : null}
           </Row>
         </Col>
 
         <Col span={24} style={{ marginBottom: "1rem" }}>
           <Tag onClick={() => handleAllCategory()}>Todo el Menu</Tag>
           {categories?.map((category) => {
+            // console.log(category);
             return (
               <Tag
                 onClick={() => handleFilterByCategory(category.id)}

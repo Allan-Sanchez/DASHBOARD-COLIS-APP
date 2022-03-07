@@ -32,7 +32,7 @@ const InfoReducer = (state, action) => {
     case ADD_CATEGORY:
       return {
         ...state,
-        categories: state.categories.map((category) => {
+        categories: state.categories.filter((category) => {
           if (category.id === action.payload.id) {
             return (category.categories = [
               ...category.categories,
@@ -47,7 +47,7 @@ const InfoReducer = (state, action) => {
         ...state,
         categories: [],
       };
-      case CLEAN_CATEGORy:
+    case CLEAN_CATEGORy:
       return {
         ...state,
         category: [],
