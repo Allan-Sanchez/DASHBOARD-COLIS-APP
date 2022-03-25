@@ -97,13 +97,14 @@ function Menu() {
           <Tag onClick={() => handleAllCategory()}>Todo el Menu</Tag>
           {categories?.map((category) => {
             // console.log(category);
+            // TODO: enable botton for do not create 2 category whith the same name
             return (
               <Tag
                 onClick={() => handleFilterByCategory(category.id)}
                 key={category.id}
                 style={{ padding: "0 1rem" }}
               >
-                {category.name}
+                {category.name.toUpperCase()}
               </Tag>
             );
           })}

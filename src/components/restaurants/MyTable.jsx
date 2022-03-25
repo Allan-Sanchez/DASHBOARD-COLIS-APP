@@ -28,7 +28,7 @@ function MyTable({ data }) {
         }}
       />
       <Column
-        responsive={["sm"]}
+        responsive={["md"]}
         title="Direccion"
         dataIndex="address"
         key="address"

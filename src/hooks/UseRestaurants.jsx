@@ -22,6 +22,7 @@ const UseRestaurants = () => {
         ...doc.data(),
       };
     });
+    console.log(response);
     setRestaurants(response);
   }
 

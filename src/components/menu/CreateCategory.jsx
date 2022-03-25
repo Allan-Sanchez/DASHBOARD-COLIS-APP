@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Modal, Button, Form, Input } from "antd";
+import { Modal, Button, Form, Input, Spin } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { FirebaseContext } from "../../firebase";
 import InfoContext from "../../context/InfoContext";
 
 function CreateCategory({ restaurant, paramsId, setRestaurant }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { firebase } = useContext(FirebaseContext);
   const { setCategory } = useContext(InfoContext);
   const [form] = Form.useForm();
@@ -23,6 +24,7 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
   };
   // form
   const onFinish = async (values) => {
+    setLoading(true);
     const categoryId = uuidv4();
 
     try {
@@ -49,9 +51,11 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
       // setRestaurant(restaurant, true);
       setCategory({ ...values, id: categoryId, categories: [] });
       form.resetFields();
+      setLoading(false);
       console.log("todo ok");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
     handleOk();
   };
@@ -84,9 +88,13 @@ function CreateCategory({ restaurant, paramsId, setRestaurant }) {
             />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" size="middle">
-              Guardar Categoria
-            </Button>
+            {loading ? (
+              <Spin />
+            ) : (
+              <Button type="primary" htmlType="submit" size="middle">
+                Guardar Categoria
+              </Button>
+            )}
           </Form.Item>
         </Form>
       </Modal>
